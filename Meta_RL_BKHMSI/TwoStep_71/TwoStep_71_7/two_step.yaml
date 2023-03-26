@@ -1,0 +1,23 @@
+a2c:
+  entropy-weight: 0.05
+  gamma: 0.9
+  lr: 0.0007
+  max-grad-norm: 999.0
+  mem-units: 128
+  value-loss-weight: 0.05
+  weight-decay: 0
+resume: false
+run-title: TwoStep_71_7
+save-interval: 10000
+save-path: ckpt
+seed: 13965
+start-episode: 20000
+task:
+  common-prob: 0.9
+  reward-prob: 0.9
+  swtich-prob: 0.1
+  test-episodes: 500
+  train-episodes: 10000
+  trials-per-epi: 100
+test: true
+train: true
