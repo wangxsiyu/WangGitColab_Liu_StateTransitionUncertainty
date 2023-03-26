@@ -32,12 +32,12 @@ def mytrain(seed_idx):
         config = yaml.load(fin, Loader=yaml.FullLoader)
     render_mode = None
     n_maxTrials = 100
-    env = W_Env("TwoStep_Confidence_2frame", render_mode = render_mode, \
+    env = W_Env("TwoStep_Confidence_2frame", is_fixed = False, is_flip_trans = True, render_mode = render_mode, \
                             n_maxTrials = n_maxTrials)
     tseed = 1995 * seed_idx
     tlt = "v" + f"_{seed_idx}"
     import os
-    savefolder = "test_flipboth"
+    savefolder = "cont"
     if not os.path.exists(savefolder):
         os.mkdir(savefolder)
     exp_path = os.path.join(savefolder, tlt)
@@ -53,7 +53,8 @@ def mytrain(seed_idx):
 
     model = W_RNN_Head_ActorCritic(env.observation_space_size() + env.action_space.n + 1,\
                             config['a2c']['mem-units'],env.action_space.n,'LSTM',noise_scale = noise_scale, device = device)
-    file_trained_list = os.listdir(os.path.dirname(out_path))
+    file_trained_list = os.listdir(os.path.dirname(
+        out_path))
     
     loss = dict(name = 'A2C', params = dict(gamma = config['a2c']['gamma'], \
                                             coef_valueloss = config['a2c']['value-loss-weight'], \
@@ -76,7 +77,7 @@ def mytrain(seed_idx):
         print(f"start episode: {last_episode}")
     else:
         last_episode = 0
-    wk.train(20000, batch_size = 1, save_path= out_path, save_interval= 500, last_episode=last_episode)
+    wk.train(50000, batch_size = 1, save_path= out_path, save_interval= 500, last_episode=last_episode)
 
 
 
