@@ -13,6 +13,9 @@ class W_loss2(W_loss):
         (_, _, _, reward, _, done,_,_,_) = buffer
         (action_dist, guess_dist, value, action_likelihood, guess_likelihood, l1, l2, l3, d1, d2, d3) = trainingbuffer
         rguess = reward[:,:,1]
+        rsb1 = reward[:,:,2]
+        rsb2 = reward[:,:,3]
+        rsb0 = reward[:,:,4]
         reward = reward[:,:,0]
         # bootstrap discounted returns with final value estimates
         nbatch = done.shape[0]
@@ -47,10 +50,12 @@ class W_loss2(W_loss):
         loss_guess = -(guessll * rguess).mean()
 
         # loss for safebet
-        # loss_sb1 = -(torch.log(l1) * ).mean()
+        loss_sb1 = -(torch.log(l1) * rsb0).mean()
+        loss_sb2 = -(torch.log(l2) * rsb1).mean()
+        loss_sb3 = -(torch.log(l3) * rsb2).mean()
 
 
-        loss = loss_actor + loss_critic + loss_guess
+        loss = loss_actor + loss_critic + loss_guess + loss_sb1 + loss_sb2  + loss_sb3
 
         if torch.isinf(loss):
             print('check')
@@ -70,10 +75,10 @@ class trainer(W_Trainer):
         (obs, guess, action, _,_,_, sb1, sb2, sb3) = buffer
         action = action.to(self.device)
         guess = guess.to(self.device)
-        mem_state = self.model.get_h0_c0()
-        action_vec, val_estimate, mem_state = self.model(obs.to(self.device), mem_state)
-        v = self.model.conf(mem_state[0])
+        mem_state = None
+        action_vec, val_estimate, mem_state, v = self.model(obs.to(self.device), mem_state)
         action_vec = action_vec.permute((1,0,2))
+        v = v.permute((1,0,2))
         guess_dist = torch.nn.functional.softmax(action_vec[:,:,2:4], dim = -1)
         action_dist = torch.nn.functional.softmax(action_vec[:,:,(0,1,4)], dim = -1)
 
@@ -134,13 +139,12 @@ class trainer(W_Trainer):
         done = False
         total_reward = 0
         obs = self.env.reset()
-        mem_state = self.model.get_h0_c0()
+        mem_state = None
         self.memory.clear()
         while not done:
             # take actions
             obs = torch.from_numpy(obs).unsqueeze(0).float()
-            action_vector, val_estimate, mem_state_new = self.model(obs.unsqueeze(0).to(self.device), mem_state)
-            conf_vector = self.model.conf(mem_state[0])
+            action_vector, val_estimate, mem_state_new, conf_vector  = self.model(obs.unsqueeze(0).to(self.device), mem_state)
             action, guess = self.select_action(action_vector, mode_action)
             sb1, sb2, sb3 = self.select_safebet(conf_vector)
             obs_new, reward, done, timestep, _ = self.env.step(action.item(), guess.item(), sb1.item(), sb2.item(), sb3.item())
@@ -166,7 +170,7 @@ class trainer(W_Trainer):
             
             obs = obs_new
             mem_state = mem_state_new
-            total_reward += reward[0,0] + reward[0,1]
+            total_reward += reward.sum()
 
         self.memory.push()
         return total_reward

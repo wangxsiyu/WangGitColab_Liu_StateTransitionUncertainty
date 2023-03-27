@@ -161,6 +161,22 @@ class task_safebet(W_Gym):
             reward_E += tR_ext
             rguess = tR_int      
         
+        r_sb1 = 0
+        r_sb2 = 0
+        r_sb0 = 0
+
+        if self.metadata_stage['stage_names'][self.stage] == "stage1" and safebet1 > 0:
+            r_sb1 = (rguess - 0.5) * 2
+        
+            
+        if self.metadata_stage['stage_names'][self.stage] == "stage2":
+            if safebet2 > 0:
+                r_sb2 = (reward_E - 0.5) * 2
+
+            if self.safebet > 0:
+                r_sb0 = (reward_E - 0.5) * 2
+
+
         # move on to the next time point
         # check is advance stage
         is_advance = False
@@ -197,27 +213,14 @@ class task_safebet(W_Gym):
             self._step_set_validactions()
         if hasattr(self, '_draw_obs'):
             self._draw_obs()
-        rtot = reward_E + reward_I
-        self.last_reward = rtot
+        self.last_reward = reward_E + reward_I
         self.render(option = ["obs","action","reward","time"])
         
         obs = self._get_obs()
         info = self._get_info()
 
-        if safebet1 > 0:
-            if rguess == 1:
-                rguess = 2
-            else:
-                rguess = -1
 
-        sfb = safebet2 + self.safebet
-        if sfb > 0:
-            if rtot == 1:
-                rtot += sfb
-            else:
-                rtot -= sfb
-
-        outr = np.stack((rtot, rguess))
+        outr = np.stack((self.last_reward, rguess, r_sb1, r_sb2, r_sb0))
         return obs, outr, is_done, self.tot_t, info
     
 

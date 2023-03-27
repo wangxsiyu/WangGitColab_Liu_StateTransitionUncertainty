@@ -15,6 +15,23 @@ from multiprocessing import Process, Pool, freeze_support, RLock, Lock
 import tqdm
 from trainer import trainer
 
+
+class mymodel(W_RNN_Head_ActorCritic):
+    def __init__(self, input_len, hidden_len, action_len, gatetype="vanilla", inittype=None, device=None, *arg, **kwarg):
+        super().__init__(input_len, hidden_len, action_len, gatetype, inittype, device, *arg, **kwarg)
+
+    def _forward(self, obs, hidden_state = None):
+        if hidden_state is None:
+            batch_size = obs.shape[0]
+            hidden_state = self.get_h0_c0(batch_size)   
+        obs = obs.permute((1,0,2))     
+        h, hidden_state = self.RNN(obs, hidden_state)
+        policy_vector = self.actor(h)
+        value = self.critic(h)
+        policy_safebet = self.conf(h)
+        return policy_vector, value, hidden_state, policy_safebet
+
+
 class W_Trainer_WV(trainer):
     def __init__(self, env, model, param_loss, param_optim, logger=None, device=None, gradientclipping=None, seed=None, position_tqdm=0, *arg, **kwarg):
         super().__init__(env, model, param_loss, param_optim, logger, device, gradientclipping, seed, position_tqdm, *arg, **kwarg)
@@ -59,8 +76,10 @@ def mytrain(seed_idx):
     with open(out_path + ".yaml", 'w') as fout:
         yaml.dump(config, fout)
 
-    model = W_RNN_Head_ActorCritic(env.observation_space_size() + env.action_space.n + 1,\
+    model = mymodel(env.observation_space_size() + env.action_space.n + 1,\
                             config['a2c']['mem-units'],env.action_space.n,'LSTM',noise_scale = noise_scale, device = device)
+    
+    model.conf = nn.Linear(model.RNN.hidden_size, 6)
     file_trained_list = os.listdir(os.path.dirname(
         out_path))
     
@@ -91,13 +110,12 @@ def mytrain(seed_idx):
         param.requires_grad = False
     model.h0.requires_grad = False
     model.c0.requires_grad = False
-    model.conf = nn.Linear(model.RNN.hidden_size, 6)
     
     optim = dict(name = 'RMSprop', lr  = config['a2c']['lr'])
     wk = W_Trainer_WV(env, model, loss, optim, capacity = 1000, mode_sample = "last", \
                    device = device, gradientclipping=config['a2c']['max-grad-norm'], seed = tseed, position_tqdm = position_tqdm)
     
-    wk.train(100000, batch_size = 1, save_path= out_path, save_interval= 500, last_episode=last_episode)
+    wk.train(150000, batch_size = 1, save_path= out_path, save_interval= 500, last_episode=last_episode)
 
 
 
@@ -118,7 +136,7 @@ if __name__ == "__main__":
     # with ProcessPoolExecutor(max_workers=n_seeds) as executor:
     #     executor.map(mytrain, range(n_seeds))
 
-    mytrain(3)
+    # mytrain(3)
     # mytrain(0)
     # p = Pool(n_seeds)
     # for seed_idx in range(n_seeds):
