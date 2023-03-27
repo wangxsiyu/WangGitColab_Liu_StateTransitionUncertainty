@@ -7,7 +7,7 @@ class task_TwoStep_Confidence_2frame_guessplanet(W_Gym):
     task_param = {'p_switch': 0.025, 'reward_safe': 0.1}
     high_state = None
     is_fixed = False
-    def __init__(self, is_fixed = [0, 0], is_flip_ptrans = True, is_flip = False,  *arg, **kwarg):
+    def __init__(self, is_fixed = [0, 0], is_flip_ptrans = False, is_flip = True, is_guess = False,  *arg, **kwarg):
         super().__init__(is_ITI = False, *arg, **kwarg)
 
         self.observation_space = spaces.Discrete(9)
@@ -16,6 +16,7 @@ class task_TwoStep_Confidence_2frame_guessplanet(W_Gym):
         self.is_flip_ptrans = is_flip_ptrans
         self.is_fixed = is_fixed
         self.is_flip = is_flip
+        self.is_guess = is_guess
         # set rendering dimension names
         self.setup_obs_Name2DimNumber({'planet0':0, 'planet1':1, 'planet2':2,\
                                        'shuttle1':3, 'shuttle2':4, \
@@ -29,6 +30,8 @@ class task_TwoStep_Confidence_2frame_guessplanet(W_Gym):
 
         self.display_reward = 0
         print(f"fix:{self.is_fixed}, flip:{self.is_flip_ptrans}")
+
+    
 
     def _reset_block(self):
         if self.is_fixed[0] == 1:
@@ -77,32 +80,23 @@ class task_TwoStep_Confidence_2frame_guessplanet(W_Gym):
     def _step_set_validactions(self):
         if self.metadata_stage['stage_names'][self.stage] in ["stage1"]:
             self.valid_actions = [0,1]
-        elif self.metadata_stage['stage_names'][self.stage] in ["guessplanet"]:
-            self.valid_actions = [2,3]
         elif self.metadata_stage['stage_names'][self.stage] in ["stage2"]:
-            self.valid_actions = [4]
-
-    # def _advance_stage(self):
-    #     is_error = False
-    #     if self.metadata_stage['stage_names'][self.stage] == "stage1" and self.planet is None:
-    #         is_error = True
-    #         stage = self.stage
-    #     else:
-    #         stage = self.stage + 1
-    #     return stage, is_error
+            self.valid_actions = [2]
     
-    def _step(self, action):
+    def _step(self, action, guess = -1):
             R_ext = 0
             R_int = 0
-
-            guess = action[1]
-            action = action[0]
 
             if self.metadata_stage['stage_names'][self.stage] == "stage1":
                 self.shuttle = action
                 self.planet = self.param_trial['transition'][self.shuttle]
             # if self.metadata_stage['stage_names'][self.stage] == "guessplanet":
-                R_int += np.array(self.planet == guess - 2).astype(int)
+                if self.is_guess:
+                    if self.planet == guess:
+                        R_int += 1
+                    else:
+                        R_int -= 0
+                    # R_int += np.array(self.planet == guess).astype(int)
             if self.metadata_stage['stage_names'][self.stage] == "stage2":
                 self.display_reward = self.param_trial['reward'][self.planet]
                 R_ext += self.display_reward
@@ -138,6 +132,77 @@ class task_TwoStep_Confidence_2frame_guessplanet(W_Gym):
         self._render_setplotparams('obs', plottypes, colors, radius, position)
         plottypes = ["arrowsplus"]
         self._render_setplotparams('action', plottypes, plotparams = [0,2,1,3,4])
+
+
+    def step(self, action, guess= -1):
+        reward_E = 0
+        reward_I = 0
+        # advance time
+        self.tot_t += self.dt
+        self.t = self.t + self.dt
+        self.timer = self.timer + self.dt
+        if hasattr(self, "_action_transform"):
+            action = self._action_transform(action)
+        # check valid actions
+        # guess = action[1].item()
+        # action = action[0].item()
+        is_error = not (self.check_isvalidaction(action, self.valid_actions) or \
+            self.metadata_stage['stage_names'][self.stage] == "ITI")
+        self.is_effective_action = self.check_isvalidaction(action, self.effective_actions)
+        # record current choice
+        self.last_action = action
+        self.last_stage = self.stage
+        # get consequences of actions
+        if not is_error and hasattr(self, '_step'):    
+            tR_ext, tR_int = self._step(action, guess)
+            reward_E += tR_ext
+            rguess = tR_int      
+        
+        # move on to the next time point
+        # check is advance stage
+        is_advance = False
+        # self.action_immediateadvance = None
+        if not is_error:
+            if self.metadata_stage['stage_advanceuponaction'][self.stage] == 1:
+                if self.effective_actions is None:
+                    effective_actions = self.valid_actions
+                else:
+                    effective_actions = self.effective_actions
+                if self.check_isvalidaction(action, effective_actions):
+                    is_advance = True
+                    # self.action_immediateadvance = action
+            if self.timer >= self.metadata_stage['stage_timings'][self.stage]:
+                is_advance = True
+        # move on to the next stage  
+        if is_error or is_advance:
+            tR_ext, tR_int, is_done = self.advance_stage(is_error)
+            reward_E += tR_ext
+            reward_I += tR_int
+        else: 
+            is_done = False
+
+        if self.tot_t >= self.n_maxT:
+            is_done = True
+        # get consequences of actions (after)
+        if not is_error and hasattr(self, '_step_after'):    
+            tR_ext, tR_int = self._step_after(action)
+            reward_E += tR_ext
+            reward_I += tR_int
+
+        # set valid actions for the new observation
+        if hasattr(self, '_step_set_validactions'):
+            self._step_set_validactions()
+        if hasattr(self, '_draw_obs'):
+            self._draw_obs()
+
+        self.last_reward = reward_E + reward_I
+        self.render(option = ["obs","action","reward","time"])
+        
+        obs = self._get_obs()
+        info = self._get_info()
+        outr = np.stack((self.last_reward, rguess))
+        return obs, outr, is_done, self.tot_t, info
+    
 
    
     
