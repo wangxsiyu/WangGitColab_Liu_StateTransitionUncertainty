@@ -32,7 +32,7 @@ def mytrain(seed_idx):
         config = yaml.load(fin, Loader=yaml.FullLoader)
     render_mode = None
     n_maxTrials = 100
-    env = W_Env("TwoStep_Confidence_2frame", is_fixed = [0, 1], is_flip_trans = True, is_flip = False, render_mode = render_mode, \
+    env = W_Env("TwoStep_Confidence_2frame", is_fixed = [0, 0], is_flip_trans = True, is_flip = False, render_mode = render_mode, \
                             n_maxTrials = n_maxTrials)
     tseed = 1995 * seed_idx
     tlt = "v" + f"_{seed_idx}"
@@ -77,7 +77,7 @@ def mytrain(seed_idx):
         print(f"start episode: {last_episode}")
     else:
         last_episode = 0
-    wk.train(50000, batch_size = 1, save_path= out_path, save_interval= 500, last_episode=last_episode)
+    wk.train(80000, batch_size = 1, save_path= out_path, save_interval= 500, last_episode=last_episode)
 
 
 
