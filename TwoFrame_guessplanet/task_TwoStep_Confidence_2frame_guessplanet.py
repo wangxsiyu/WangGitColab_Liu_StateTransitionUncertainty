@@ -94,11 +94,15 @@ class task_TwoStep_Confidence_2frame_guessplanet(W_Gym):
     def _step(self, action):
             R_ext = 0
             R_int = 0
+
+            guess = action[1]
+            action = action[0]
+
             if self.metadata_stage['stage_names'][self.stage] == "stage1":
                 self.shuttle = action
                 self.planet = self.param_trial['transition'][self.shuttle]
-            if self.metadata_stage['stage_names'][self.stage] == "guessplanet":
-                R_int += np.array(self.planet == action - 2).astype(int)
+            # if self.metadata_stage['stage_names'][self.stage] == "guessplanet":
+                R_int += np.array(self.planet == guess - 2).astype(int)
             if self.metadata_stage['stage_names'][self.stage] == "stage2":
                 self.display_reward = self.param_trial['reward'][self.planet]
                 R_ext += self.display_reward
