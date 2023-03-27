@@ -1,10 +1,12 @@
 import torch
 from W_RNN.W_RNN import W_RNN_Head_ActorCritic
 # from W_RNN.W_Trainer import W_Trainer
+import torch.nn as nn
 import yaml
 import argparse
 from W_Env.W_Env import W_Env
 from task_TwoStep_Confidence_2frame_guessplanet import task_TwoStep_Confidence_2frame_guessplanet
+from task_safebet import task_safebet
 import numpy as np
 import re
 # from concurrent.futures import ProcessPoolExecutor
@@ -34,7 +36,7 @@ def mytrain(seed_idx):
         config = yaml.load(fin, Loader=yaml.FullLoader)
     render_mode = None
     n_maxTrials = 100
-    env = task_TwoStep_Confidence_2frame_guessplanet(is_fixed = [2, 2], is_flip_trans = True, is_flip = False, render_mode = render_mode, \
+    env = task_safebet(is_fixed = [2, 2], is_flip_trans = True, is_flip = False, render_mode = render_mode, \
                             n_maxTrials = n_maxTrials, is_guess = True)
     
     # env = W_Env("TwoStep_Confidence_2frame", is_fixed = [1, 1], is_flip_trans = True, is_flip = False, render_mode = render_mode, \
@@ -65,9 +67,6 @@ def mytrain(seed_idx):
     loss = dict(name = 'A2C', params = dict(gamma = config['a2c']['gamma'], \
                                             coef_valueloss = config['a2c']['value-loss-weight'], \
                                             coef_entropyloss = config['a2c']['entropy-loss-weight']))
-    optim = dict(name = 'RMSprop', lr  = config['a2c']['lr'])
-    wk = W_Trainer_WV(env, model, loss, optim, capacity = 1000, mode_sample = "last", \
-                   device = device, gradientclipping=config['a2c']['max-grad-norm'], seed = tseed, position_tqdm = position_tqdm)
     
     basenames = [os.path.basename(x) for x in file_trained_list]
     res = [re.search("train_iter_(.*).pt", x) for x in basenames]
@@ -83,12 +82,21 @@ def mytrain(seed_idx):
         print(f"start episode: {last_episode}")
     else:
         last_episode = 0
-    for param in wk.model.RNN.parameters():
+    
+    for param in model.RNN.parameters():
         param.requires_grad = False
-    for param in wk.model.critic.parameters():
+    for param in model.critic.parameters():
         param.requires_grad = False
-    wk.model.h0.requires_grad = False
-    wk.model.c0.requires_grad = False
+    for param in model.actor.parameters():
+        param.requires_grad = False
+    model.h0.requires_grad = False
+    model.c0.requires_grad = False
+    model.conf = nn.Linear(model.RNN.hidden_size, 6)
+    
+    optim = dict(name = 'RMSprop', lr  = config['a2c']['lr'])
+    wk = W_Trainer_WV(env, model, loss, optim, capacity = 1000, mode_sample = "last", \
+                   device = device, gradientclipping=config['a2c']['max-grad-norm'], seed = tseed, position_tqdm = position_tqdm)
+    
     wk.train(100000, batch_size = 1, save_path= out_path, save_interval= 500, last_episode=last_episode)
 
 
@@ -110,7 +118,7 @@ if __name__ == "__main__":
     # with ProcessPoolExecutor(max_workers=n_seeds) as executor:
     #     executor.map(mytrain, range(n_seeds))
 
-    # mytrain(3)
+    mytrain(3)
     # mytrain(0)
     # p = Pool(n_seeds)
     # for seed_idx in range(n_seeds):
