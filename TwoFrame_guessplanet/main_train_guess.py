@@ -34,7 +34,7 @@ def mytrain(seed_idx):
         config = yaml.load(fin, Loader=yaml.FullLoader)
     render_mode = None
     n_maxTrials = 100
-    env = task_TwoStep_Confidence_2frame_guessplanet(is_fixed = [1, 2], is_flip_trans = True, is_flip = False, render_mode = render_mode, \
+    env = task_TwoStep_Confidence_2frame_guessplanet(is_fixed = [2, 2], is_flip_trans = True, is_flip = False, render_mode = render_mode, \
                             n_maxTrials = n_maxTrials, is_guess = True)
     
     # env = W_Env("TwoStep_Confidence_2frame", is_fixed = [1, 1], is_flip_trans = True, is_flip = False, render_mode = render_mode, \
