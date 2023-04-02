@@ -198,7 +198,6 @@ class Trainer:
         self.env.plot(self.save_path.format(epi=self.seed))
 
 if __name__ == "__main__":
-
     parser = argparse.ArgumentParser(description='Paramaters')
     parser.add_argument('-c', '--config',  type=str, default="two_step.yaml", help='path of config file')
     args = parser.parse_args()

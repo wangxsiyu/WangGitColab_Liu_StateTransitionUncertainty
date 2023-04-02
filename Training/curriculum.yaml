@@ -3,7 +3,7 @@ step1:
   ps_common_trans: [0.9]
   is_random_common0: False
   p_switch_transition: 0
-  nstep: 40_000
+  nstep: 10_000
   ver: "step1_basic_two_step"
 
 step2:
@@ -11,7 +11,7 @@ step2:
   ps_common_trans: [0.9]
   is_random_common0: True
   p_switch_transition: 0.025
-  nstep: 20_000
+  nstep: 10_000
   ver: "step2_flip_pcommon"
 
 step3:
@@ -19,7 +19,7 @@ step3:
   ps_common_trans: [0.9]
   is_random_common0: True
   p_switch_transition: 0.025
-  nstep: 20_000
+  nstep: 10_000
   ver: "step3_graded_reward"
   
 step4:
@@ -27,7 +27,7 @@ step4:
   ps_common_trans: [0.6, 0.7, 0.8, 0.9, 1]
   is_random_common0: True
   p_switch_transition: 0.025
-  nstep: 20_000
+  nstep: 10_000
   ver: "step4_graded_pcommon"
 
 

@@ -11,4 +11,4 @@ def train_2frame_curriculum(seed_idx):
         lastver = train_2frame(seed_idx, key, lastver, verbose= False)
 
 if __name__ == "__main__":
-    train_2frame_curriculum(0)
+    train_2frame_curriculum(1)
