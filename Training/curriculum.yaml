@@ -13,7 +13,7 @@ step2:
   ps_ambiguity: [0]
   is_random_common0: True
   p_switch_transition: 0.025
-  nstep: 10_000
+  nstep: 20_000
   ver: "step2_flip_pcommon"
 
 step3:
@@ -31,7 +31,7 @@ step4:
   ps_ambiguity: [0.1]
   is_random_common0: True
   p_switch_transition: 0.025
-  nstep: 10_000
+  nstep: 20_000
   ver: "step4_graded_reward"
   
 step5:
@@ -40,7 +40,7 @@ step5:
   ps_ambiguity: [0.1]
   is_random_common0: True
   p_switch_transition: 0.025
-  nstep: 10_000
+  nstep: 20_000
   ver: "step5_graded_pcommon"
 
 step6:
@@ -49,7 +49,7 @@ step6:
   ps_ambiguity: [0, 0.2, 0.4, 0.6, 0.8]
   is_random_common0: True
   p_switch_transition: 0.025
-  nstep: 10_000
+  nstep: 20_000
   ver: "step6_graded_ambiguity"
   
 step7:
@@ -58,6 +58,6 @@ step7:
   ps_ambiguity: [0, 0.2, 0.4, 0.6, 0.8]
   is_random_common0: True
   p_switch_transition: 0.025
-  nstep: 20_000
+  nstep: 30_000
   ver: "step7_mixed"
 
