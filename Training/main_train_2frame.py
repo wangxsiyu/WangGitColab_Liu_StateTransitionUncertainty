@@ -19,6 +19,7 @@ def train_2frame(seed_idx, key = None, lastver = None, verbose = False):
         env = W_Env("TwoStep_Confidence_2frame", \
                 ps_high_state = key['ps_high_state'], \
                 ps_common_trans = key['ps_common_trans'], \
+                ps_ambiguity = key['ps_ambiguity'], \
                 is_random_common0 = key['is_random_common0'], \
                 p_switch_transition = key['p_switch_transition'], \
                 render_mode = None, \
