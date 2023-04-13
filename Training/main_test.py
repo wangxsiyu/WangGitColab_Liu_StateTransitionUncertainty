@@ -28,7 +28,7 @@ def test_2frame(subID):
     params = dict(
         ps_high_state = [0.5,0.6,0.7,0.8,0.9,1.0],\
         ps_common_trans = [0.5,0.6,0.7,0.8,0.9,1.0],\
-        ps_ambiguity = [0.5,0.6,0.7,0.8,0.9,1.0],\
+        ps_ambiguity = [0, 0.2, 0.4, 0.6, 0.8, 1.0],\
         )
     p_switch_transition = [True, 0]    
     n_maxTrials = 30
@@ -51,6 +51,7 @@ def test_2frame(subID):
 
 if __name__ == "__main__":
     n_seeds = 8
+    # test_2frame(1)
     print(n_seeds)
     freeze_support()
     proc = []
