@@ -10,8 +10,23 @@ function d = preprocess_2step(d)
     d.t = [];
     d.observedplanet = d.obs_next;
     d.obs_next = [];
-    d.planetH = cellfun(@(x) str2num(x) * [1 2]', d.rewardplanet);
-    d.rewardplanet = [];
+    tRP = W.cellfun(@(x) str2num(x), d.rewardplanet, false);
+    d.rewardplanet = vertcat(tRP{:});
+
+    b1 = [0; find(diff(d.trialID) < 0)] + 1;
+    b2 = [b1(2:end)-1; length(d.trialID)];
+    for i = 1:length(b1)
+        d.blockID(b1(i):b2(i)) = i;
+    end
+
+    bID = unique(d.blockID);
+    pH = W.arrayfun(@(x) nanmean(d.rewardplanet(d.blockID==x,:)), bID, false);
+    pH = vertcat(pH{:});
+    pH = W.arrayfun(@(x)pH(x,:), d.blockID, false);
+    d.p_avRewardProb = vertcat(pH{:});
+
+    d.planetH = d.highstate + 1; %(d.p_avRewardProb(:, 1) < d.p_avRewardProb(:, 2)) + 1;
+
     d.p_trans = cellfun(@(x) mean(str2num(x)), d.p_trans);
     d.p_reward_low = [];
     majortrans = d.p_trans .* [1 2] + (1-d.p_trans) .* [2 1];

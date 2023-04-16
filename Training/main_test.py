@@ -30,8 +30,8 @@ def test_2frame(subID):
         ps_common_trans = [0.5,0.6,0.7,0.8,0.9,1.0],\
         ps_ambiguity = [0, 0.2, 0.4, 0.6, 0.8, 1.0],\
         )
-    p_switch_transition = [True, 0]    
-    n_maxTrials = 30
+    p_switch_transition = [True, 0.025]    
+    n_maxTrials = 1000
     cb = W.W_counter_balance(params)
     # set save folder
     exp_path = W.W_mkdir('data')
@@ -43,11 +43,12 @@ def test_2frame(subID):
                 ps_ambiguity = cb['ps_ambiguity'][i], \
                 is_random_common0 = p_switch_transition[0], \
                 p_switch_transition = p_switch_transition[1], \
+                p_switch_reward = 0.025, \
                 render_mode = None, \
                 n_maxTrials = n_maxTrials)
         wk.env = env
         out_path = os.path.join(exp_path, f"data_{env.get_versionname()}.csv")
-        wk.run_worker(100, is_test = True, savename = out_path, showprogress = True)
+        wk.run_worker(10, is_test = True, savename = out_path, showprogress = True)
 
 if __name__ == "__main__":
     n_seeds = 8

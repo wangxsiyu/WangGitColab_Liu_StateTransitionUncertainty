@@ -35,7 +35,7 @@ function LL = LL_MB(alpha, eta, sigma, d)
         r = d.reward(i);
         Q2(planet) = (1 - alpha) * Q2(planet) + alpha * r;
         pT(action, planet) = pT(action, planet) + eta * (1-pT(action, planet));
-        pT(action, 3-planet) = pT(action, planet) + eta * (0-pT(action, planet));
+        pT(action, 3-planet) = pT(action, 3-planet) + eta * (0-pT(action, 3-planet));
     end
     myL = log(myL);
     LL = mean(myL, 'all', 'omitnan');
