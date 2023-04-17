@@ -9,42 +9,42 @@
 #   ver: "Reward"
 
 Transition:
-  ps_high_state: [0.9]
+  ps_high_state: [1]
   p_switch_reward: 0
-  ps_common_trans: [1]
+  ps_common_trans: [0.8]
   ps_ambiguity: [0]
   is_random_common0: True
   p_switch_transition: 0
-  nstep: 20_001
+  nstep: 100_001
   ver: "Transition"
 
-Ambiguity:
-  ps_high_state: [0.9]
-  p_switch_reward: 0
-  ps_common_trans: [1]
-  ps_ambiguity: [1]
-  is_random_common0: True
-  p_switch_transition: 0
-  nstep: 20_001
-  ver: "Ambiguity"
+# Ambiguity:
+#   ps_high_state: [0.9]
+#   p_switch_reward: 0
+#   ps_common_trans: [1]
+#   ps_ambiguity: [1]
+#   is_random_common0: True
+#   p_switch_transition: 0
+#   nstep: 20_001
+#   ver: "Ambiguity"
 
   
-Transition2:
-  ps_high_state: [0.9]
-  p_switch_reward: 0
-  ps_common_trans: [0.9]
-  ps_ambiguity: [0]
-  is_random_common0: True
-  p_switch_transition: 0
-  nstep: 50_001
-  ver: "Transition2"
+# Transition2:
+#   ps_high_state: [0.9]
+#   p_switch_reward: 0
+#   ps_common_trans: [0.9]
+#   ps_ambiguity: [0]
+#   is_random_common0: True
+#   p_switch_transition: 0
+#   nstep: 50_001
+#   ver: "Transition2"
 
-Ambiguity2:
-  ps_high_state: [0.9]
-  p_switch_reward: 0
-  ps_common_trans: [1]
-  ps_ambiguity: [0.8]
-  is_random_common0: True
-  p_switch_transition: 0
-  nstep: 50_001
-  ver: "Ambiguity2"
+# Ambiguity2:
+#   ps_high_state: [0.9]
+#   p_switch_reward: 0
+#   ps_common_trans: [1]
+#   ps_ambiguity: [0.8]
+#   is_random_common0: True
+#   p_switch_transition: 0
+#   nstep: 50_001
+#   ver: "Ambiguity2"

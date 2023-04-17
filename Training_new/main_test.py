@@ -27,19 +27,19 @@ def test_2frame(subID, tvar):
     wk.loaddict_folder(currentfolder = model_path)
     params = dict(
         ps_high_state = [1], \
-        ps_common_trans = [0.5,0.6,0.7,0.8,0.9,1.0],\
+        ps_common_trans = [0.5,0.8,1.0],\
         ps_ambiguity = [0],\
         )
     cb1 = W.W_counter_balance(params)
     params = dict(
         ps_high_state = [1], \
-        ps_common_trans = [1.0],\
-        ps_ambiguity = [0, 0.2, 0.4, 0.6, 0.8, 1.0],\
+        ps_common_trans = [0.8],\
+        ps_ambiguity =  [0,0.4,1.0],\
         )
     cb2 = W.W_counter_balance(params)
     params = dict(
-        ps_high_state = [0.5,0.6,0.7,0.8,0.9,1.0], \
-        ps_common_trans = [1.0],\
+        ps_high_state = [0.5,0.8,1.0], \
+        ps_common_trans = [0.8],\
         ps_ambiguity = [0],\
         )
     cb3 = W.W_counter_balance(params)
@@ -70,7 +70,7 @@ if __name__ == "__main__":
     freeze_support()
     proc = []
     for seed_idx in range(1, 5):
-        for veri in range(1, 3):
+        for veri in range(2, 3):
             if veri == 1:
                 tvar = 'Ambiguity'
             elif veri == 2:

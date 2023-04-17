@@ -34,9 +34,9 @@ plt = W_plt('savedir', '../Figures', 'issave',1);
 plt.figure(1,3, 'is_title',1);
 plt.setfig_all('xlabel', 'trialID', 'ylabel', 'p(reward)', 'ylim', [0 1], 'legloc', 'SE');
 plt.setfig(1:3,'title', {'p(reward)','p(common)','p(ambiguity)'});
-gp = gp0(gp0.group_analysis.agenttype == "Ambiguity",:);
+gp = gp0(gp0.group_analysis.agenttype == "Transition",:);
 plt.ax(1);
-tgp = gp(gp.group_analysis.p_ambiguity == "0" & gp.group_analysis.p_major == "1",:);
+tgp = gp(gp.group_analysis.p_ambiguity == "0" & gp.group_analysis.p_major == "0.8",:);
 [~,tod] = sort(tgp.GPav_p_reward_high);
 tgp = tgp(tod,:);
 cols = {'AZred50','AZred60','AZred70','AZred80','AZred90','AZred'};
@@ -52,7 +52,7 @@ plt.plot(1:30, tgp.GPav_avREWARD_byTRIALID, tgp.GPste_avREWARD_byTRIALID, 'line'
 plt.setfig_ax('legend', arrayfun(@(x)sprintf("pT = %.2f", x),tgp.GPav_p_major));
 
 plt.ax(3);
-tgp = gp(gp.group_analysis.p_major == "1" & gp.group_analysis.p_reward_high == "1",:);
+tgp = gp(gp.group_analysis.p_major == "0.8" & gp.group_analysis.p_reward_high == "1",:);
 [~,tod] = sort(tgp.GPav_p_ambiguity );
 tgp = tgp(tod,:);
 cols = {'AZcactus','AZcactus90','AZcactus80','AZcactus70','AZcactus60','AZcactus50'};
@@ -64,9 +64,9 @@ plt.update('p(reward)');
 plt.figure(1,3, 'is_title',1);
 plt.setfig_all('xlabel', 'trialID', 'ylabel', 'p(correct)', 'ylim', [0 1], 'legloc', 'SE');
 plt.setfig(1:3,'title', {'p(reward)','p(common)','p(ambiguity)'});
-gp = gp0(gp0.group_analysis.agenttype == "Ambiguity",:);
+gp = gp0(gp0.group_analysis.agenttype == "Transition",:);
 plt.ax(1);
-tgp = gp(gp.group_analysis.p_ambiguity == "0" & gp.group_analysis.p_major == "1",:);
+tgp = gp(gp.group_analysis.p_ambiguity == "0" & gp.group_analysis.p_major == "0.8",:);
 [~,tod] = sort(tgp.GPav_p_reward_high);
 tgp = tgp(tod,:);
 cols = {'AZred50','AZred60','AZred70','AZred80','AZred90','AZred'};
@@ -82,7 +82,7 @@ plt.plot(1:30, tgp.GPav_avCORRECT_byTRIALID, tgp.GPste_avCORRECT_byTRIALID, 'lin
 plt.setfig_ax('legend', arrayfun(@(x)sprintf("pT = %.2f", x),tgp.GPav_p_major));
 
 plt.ax(3);
-tgp = gp(gp.group_analysis.p_major == "1" & gp.group_analysis.p_reward_high == "1",:);
+tgp = gp(gp.group_analysis.p_major == "0.8" & gp.group_analysis.p_reward_high == "1",:);
 [~,tod] = sort(tgp.GPav_p_ambiguity );
 tgp = tgp(tod,:);
 cols = {'AZcactus','AZcactus90','AZcactus80','AZcactus70','AZcactus60','AZcactus50'};
@@ -97,13 +97,13 @@ plt.setfig(1:3,'xlabel', {'p(reward)','p(common)','p(ambiguity)'});
 gp = gp0(gp0.group_analysis.agenttype == "Transition",:);
 
 plt.ax(1);
-tgp = gp(gp.group_analysis.p_ambiguity == "0" & gp.group_analysis.p_major == "1",:);
+tgp = gp(gp.group_analysis.p_ambiguity == "0" & gp.group_analysis.p_major == "0.8",:);
 [~,tod] = sort(tgp.GPav_p_reward_high);
 tgp = tgp(tod,:);
 tav = [tgp.GPav_Q1_LL'; tgp.GPav_MB_LL'];
 tse = [tgp.GPste_Q1_LL'; tgp.GPste_MB_LL'];
 cols = {'AZred','AZblue'};
-plt.plot(0.5:.1:1, tav, tse, 'line', 'color', cols);
+plt.plot(1:3, tav, tse, 'line', 'color', cols);
 plt.setfig_ax('legend', {'Q1', 'MB'});
 
 plt.ax(2);
@@ -113,17 +113,17 @@ tgp = tgp(tod,:);
 tav = [tgp.GPav_Q1_LL'; tgp.GPav_MB_LL'];
 tse = [tgp.GPste_Q1_LL'; tgp.GPste_MB_LL'];
 cols = {'AZred','AZblue'};
-plt.plot(0.5:.1:1, tav, tse, 'line', 'color', cols);
+plt.plot(1:3, tav, tse, 'line', 'color', cols);
 plt.setfig_ax('legend', {'Q1', 'MB'});
 
 plt.ax(3);
-tgp = gp(gp.group_analysis.p_major == "1" & gp.group_analysis.p_reward_high == "1",:);
+tgp = gp(gp.group_analysis.p_major == "0.8" & gp.group_analysis.p_reward_high == "1",:);
 [~,tod] = sort(tgp.GPav_p_ambiguity );
 tgp = tgp(tod,:);
 tav = [tgp.GPav_Q1_LL'; tgp.GPav_MB_LL'];
 tse = [tgp.GPste_Q1_LL'; tgp.GPste_MB_LL'];
 cols = {'AZred','AZblue'};
-plt.plot(0:.2:1, tav, tse, 'line', 'color', cols);
+plt.plot(1:3, tav, tse, 'line', 'color', cols);
 plt.setfig_ax('legend', {'Q1', 'MB'});
 
 plt.update('LL');

@@ -58,9 +58,9 @@ def train_2frame(seed_idx, veri, key = None, lastver = None, verbose = False):
 
 def trainver(seed_idx, config, veri):
     if veri == 1:
-        keys = config['Ambiguity2']
+        keys = config['Ambiguity']
     elif veri == 2:
-        keys = config['Transition2']
+        keys = config['Transition']
     train_2frame(seed_idx,  veri, key = keys, verbose= True)
 
 
@@ -72,7 +72,7 @@ if __name__ == "__main__":
     freeze_support()
     proc = []
     for seed_idx in range(1, 5):
-        for veri in range(1, 3):
+        for veri in range(2, 3):
             p = Process(target = trainver, args = (seed_idx, config, veri))
             p.start()
             proc.append(p)
