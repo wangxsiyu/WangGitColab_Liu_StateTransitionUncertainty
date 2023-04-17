@@ -1,4 +1,4 @@
-datadir = '../training/data';
+datadir = '../training_new/data';
 files = W.ls(datadir, 'dir');
 %%
 d = {};
@@ -34,7 +34,7 @@ plt = W_plt('savedir', '../Figures', 'issave',1);
 plt.figure(1,3, 'is_title',1);
 plt.setfig_all('xlabel', 'trialID', 'ylabel', 'p(reward)', 'ylim', [0 1], 'legloc', 'SE');
 plt.setfig(1:3,'title', {'p(reward)','p(common)','p(ambiguity)'});
-gp = gp0;
+gp = gp0(gp0.group_analysis.agenttype == "Ambiguity",:);
 plt.ax(1);
 tgp = gp(gp.group_analysis.p_ambiguity == "0" & gp.group_analysis.p_major == "1",:);
 [~,tod] = sort(tgp.GPav_p_reward_high);
@@ -64,7 +64,7 @@ plt.update('p(reward)');
 plt.figure(1,3, 'is_title',1);
 plt.setfig_all('xlabel', 'trialID', 'ylabel', 'p(correct)', 'ylim', [0 1], 'legloc', 'SE');
 plt.setfig(1:3,'title', {'p(reward)','p(common)','p(ambiguity)'});
-gp = gp0;
+gp = gp0(gp0.group_analysis.agenttype == "Ambiguity",:);
 plt.ax(1);
 tgp = gp(gp.group_analysis.p_ambiguity == "0" & gp.group_analysis.p_major == "1",:);
 [~,tod] = sort(tgp.GPav_p_reward_high);
@@ -94,9 +94,10 @@ plt.update('p(correct)');
 plt.figure(1,3, 'is_title',1);
 plt.setfig_all('ylabel', 'average log likelihood', 'legloc', 'SE');
 plt.setfig(1:3,'xlabel', {'p(reward)','p(common)','p(ambiguity)'});
-gp = gp0;
+gp = gp0(gp0.group_analysis.agenttype == "Transition",:);
+
 plt.ax(1);
-tgp = gp(gp.group_analysis.p_ambiguity == "0" & gp.group_analysis.p_major == "0.9",:);
+tgp = gp(gp.group_analysis.p_ambiguity == "0" & gp.group_analysis.p_major == "1",:);
 [~,tod] = sort(tgp.GPav_p_reward_high);
 tgp = tgp(tod,:);
 tav = [tgp.GPav_Q1_LL'; tgp.GPav_MB_LL'];
@@ -106,7 +107,7 @@ plt.plot(0.5:.1:1, tav, tse, 'line', 'color', cols);
 plt.setfig_ax('legend', {'Q1', 'MB'});
 
 plt.ax(2);
-tgp = gp(gp.group_analysis.p_ambiguity == "0" & gp.group_analysis.p_reward_high == "0.9",:);
+tgp = gp(gp.group_analysis.p_ambiguity == "0" & gp.group_analysis.p_reward_high == "1",:);
 [~,tod] = sort(tgp.GPav_p_major );
 tgp = tgp(tod,:);
 tav = [tgp.GPav_Q1_LL'; tgp.GPav_MB_LL'];
