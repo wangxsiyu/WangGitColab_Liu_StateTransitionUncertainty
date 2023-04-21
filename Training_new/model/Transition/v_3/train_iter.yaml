@@ -6,7 +6,7 @@ a2c:
   mem-units: 128
   value-loss-weight: 0.05
 resume: false
-save-interval: 2000
+save-interval: 10000
 save-path: model
 task:
   n_maxtrials: 30
