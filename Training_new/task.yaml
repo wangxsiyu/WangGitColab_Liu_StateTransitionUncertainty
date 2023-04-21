@@ -1,5 +1,5 @@
 save-path: model
-save-interval: 2_000
+save-interval: 10_000
 resume: False
 
 task:
