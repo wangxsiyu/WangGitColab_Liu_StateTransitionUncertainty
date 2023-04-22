@@ -13,10 +13,10 @@ Transition:
   p_switch_reward: 0
   ps_common_trans: [0.8]
   ps_ambiguity: [0]
-  is_random_common0: True
+  is_random_common0: False
   p_switch_transition: 0
   nstep: 500_001
-  ver: "Transition"
+  ver: "Original"
 
 # Ambiguity:
 #   ps_high_state: [0.9]

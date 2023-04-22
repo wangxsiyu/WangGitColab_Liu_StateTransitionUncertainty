@@ -1,0 +1,12 @@
+a2c:
+  entropy-loss-weight: 0.05
+  gamma: 0.9
+  lr: 0.0007
+  max-grad-norm: 999.0
+  mem-units: 128
+  value-loss-weight: 0.05
+resume: false
+save-interval: 10000
+save-path: model
+task:
+  n_maxtrials: 30
