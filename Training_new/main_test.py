@@ -54,7 +54,7 @@ def test_2frame(subID, tvar):
                 ps_high_state = cb['ps_high_state'][i], \
                 ps_common_trans = cb['ps_common_trans'][i], \
                 ps_ambiguity = cb['ps_ambiguity'][i], \
-                is_random_common0 = True, \
+                is_random_common0 = False, \
                 p_switch_reward = 0, \
                 p_switch_transition = 0, \
                 render_mode = None, \
@@ -70,11 +70,13 @@ if __name__ == "__main__":
     freeze_support()
     proc = []
     for seed_idx in range(1, 5):
-        for veri in range(2, 3):
+        for veri in range(3, 4):
             if veri == 1:
                 tvar = 'Ambiguity'
             elif veri == 2:
                 tvar = 'Transition'
+            elif veri == 3:
+                tvar = 'Original'
             # keys = config[tvar]
             p = Process(target = test_2frame, args = (seed_idx, tvar))
             p.start()
