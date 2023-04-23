@@ -1,6 +1,8 @@
 datadir = '../training_new/data';
 files = W.ls(datadir, 'dir');
 %%
+files = files(contains(files, 'PLOS'))
+%%
 d = {};
 tab = table;
 for i = 1:length(files)
@@ -34,7 +36,7 @@ plt = W_plt('savedir', '../Figures', 'issave',1);
 plt.figure(1,3, 'is_title',1);
 plt.setfig_all('xlabel', 'trialID', 'ylabel', 'p(reward)', 'ylim', [0 1], 'legloc', 'SE');
 plt.setfig(1:3,'title', {'p(reward)','p(common)','p(ambiguity)'});
-gp = gp0(gp0.group_analysis.agenttype == "Transition",:);
+gp = gp0(gp0.group_analysis.agenttype == "PLOS",:);
 plt.ax(1);
 tgp = gp(gp.group_analysis.p_ambiguity == "0" & gp.group_analysis.p_major == "0.8",:);
 [~,tod] = sort(tgp.GPav_p_reward_high);
@@ -64,7 +66,7 @@ plt.update('p(reward)');
 plt.figure(1,3, 'is_title',1);
 plt.setfig_all('xlabel', 'trialID', 'ylabel', 'p(correct)', 'ylim', [0 1], 'legloc', 'SE');
 plt.setfig(1:3,'title', {'p(reward)','p(common)','p(ambiguity)'});
-gp = gp0(gp0.group_analysis.agenttype == "Original",:);
+gp = gp0(gp0.group_analysis.agenttype == "PLOS",:);
 plt.ax(1);
 tgp = gp(gp.group_analysis.p_ambiguity == "0" & gp.group_analysis.p_major == "0.8",:);
 [~,tod] = sort(tgp.GPav_p_reward_high);
@@ -94,7 +96,7 @@ plt.update('p(correct)');
 plt.figure(1,3, 'is_title',1);
 plt.setfig_all('ylabel', 'average log likelihood', 'legloc', 'SE');
 plt.setfig(1:3,'xlabel', {'p(reward)','p(common)','p(ambiguity)'});
-gp = gp0(gp0.group_analysis.agenttype == "Original",:);
+gp = gp0(gp0.group_analysis.agenttype == "PLOS",:);
 
 plt.ax(1);
 tgp = gp(gp.group_analysis.p_ambiguity == "0" & gp.group_analysis.p_major == "0.8",:);
@@ -103,27 +105,27 @@ tgp = tgp(tod,:);
 tav = [tgp.GPav_Q1_LL'; tgp.GPav_MB_LL'];
 tse = [tgp.GPste_Q1_LL'; tgp.GPste_MB_LL'];
 cols = {'AZred','AZblue'};
-plt.plot(1:3, tav, tse, 'line', 'color', cols);
+plt.plot(1:size(tav,2), tav, tse, 'line', 'color', cols);
 plt.setfig_ax('legend', {'Q1', 'MB'});
 
 plt.ax(2);
-tgp = gp(gp.group_analysis.p_ambiguity == "0" & gp.group_analysis.p_reward_high == "1",:);
+tgp = gp(gp.group_analysis.p_ambiguity == "0" & gp.group_analysis.p_reward_high == "0.75",:);
 [~,tod] = sort(tgp.GPav_p_major );
 tgp = tgp(tod,:);
 tav = [tgp.GPav_Q1_LL'; tgp.GPav_MB_LL'];
 tse = [tgp.GPste_Q1_LL'; tgp.GPste_MB_LL'];
 cols = {'AZred','AZblue'};
-plt.plot(1:3, tav, tse, 'line', 'color', cols);
+plt.plot(1:size(tav,2), tav, tse, 'line', 'color', cols);
 plt.setfig_ax('legend', {'Q1', 'MB'});
 
 plt.ax(3);
-tgp = gp(gp.group_analysis.p_major == "0.8" & gp.group_analysis.p_reward_high == "1",:);
+tgp = gp(gp.group_analysis.p_major == "0.8" & gp.group_analysis.p_reward_high == "0.75",:);
 [~,tod] = sort(tgp.GPav_p_ambiguity );
 tgp = tgp(tod,:);
 tav = [tgp.GPav_Q1_LL'; tgp.GPav_MB_LL'];
 tse = [tgp.GPste_Q1_LL'; tgp.GPste_MB_LL'];
 cols = {'AZred','AZblue'};
-plt.plot(1:3, tav, tse, 'line', 'color', cols);
+plt.plot(1:size(tav,2), tav, tse, 'line', 'color', cols);
 plt.setfig_ax('legend', {'Q1', 'MB'});
 
 plt.update('LL');

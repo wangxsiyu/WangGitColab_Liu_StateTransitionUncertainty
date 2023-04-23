@@ -26,19 +26,19 @@ def test_2frame(subID, tvar):
     model_path = "model/" + tvar + "/" + f"v_{subID}"
     wk.loaddict_folder(currentfolder = model_path)
     params = dict(
-        ps_high_state = [1], \
-        ps_common_trans = [0.5,0.8,1.0],\
+        ps_high_state = [0.75], \
+        ps_common_trans = [0.8,1.0],\
         ps_ambiguity = [0],\
         )
     cb1 = W.W_counter_balance(params)
     params = dict(
-        ps_high_state = [1], \
+        ps_high_state = [0.75], \
         ps_common_trans = [0.8],\
-        ps_ambiguity =  [0,0.4,1.0],\
+        ps_ambiguity =  [0,0.4],\
         )
     cb2 = W.W_counter_balance(params)
     params = dict(
-        ps_high_state = [0.5,0.8,1.0], \
+        ps_high_state = [0.75,1.0], \
         ps_common_trans = [0.8],\
         ps_ambiguity = [0],\
         )
@@ -76,7 +76,7 @@ if __name__ == "__main__":
             elif veri == 2:
                 tvar = 'Transition'
             elif veri == 3:
-                tvar = 'Original'
+                tvar = 'PLOS'
             # keys = config[tvar]
             p = Process(target = test_2frame, args = (seed_idx, tvar))
             p.start()

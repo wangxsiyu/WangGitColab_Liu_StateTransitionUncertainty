@@ -6,6 +6,7 @@ function d = preprocess_2step(d, ver)
     switch ver
         case '1frame'
             d.action = d.action + 1;
+            d.trialID = d.tot_t;
         case '2frames'
             tid = d.stage == 1;
             d.reward = reward(find(tid)+1);
