@@ -25,7 +25,7 @@ class W_logger1(W_Logger):
         r = self.info['rewards'][max(0, episode-self.smooth_interval):(episode+1)]
         if episode > 100:
             av = [r[pa < 0.1].mean(),r[pa ==0.5].mean(),r[pa >= 0.9].mean()]
-            str = f"R0 = {av[0]}, R50 = {av[1]}, R100 = {av[2]}"
+            str = f"R0 = {av[0]/300:.2f}, R50 = {av[1]/300:.2f}, R100 = {av[2]/300:.2f}"
         else:
             str = str
         return str
@@ -87,14 +87,14 @@ def trainver(seed_idx, config, veri):
 if __name__ == "__main__":
     with open('param.yaml', 'r', encoding="utf-8") as fin:
         config = yaml.load(fin, Loader=yaml.FullLoader)
-    trainver(1, config, 2)
-    # freeze_support()
-    # proc = []
-    # for seed_idx in range(1, 5):
-    #     for veri in range(2, 3):
-    #         p = Process(target = trainver, args = (seed_idx, config, veri))
-    #         p.start()
-    #         proc.append(p)
+    # trainver(1, config, 2)
+    freeze_support()
+    proc = []
+    for seed_idx in range(1, 5):
+        for veri in range(2, 3):
+            p = Process(target = trainver, args = (seed_idx, config, veri))
+            p.start()
+            proc.append(p)
 
-    # for p in proc:
-    #     p.join()
+    for p in proc:
+        p.join()
