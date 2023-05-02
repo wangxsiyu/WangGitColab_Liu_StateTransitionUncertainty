@@ -21,7 +21,7 @@ def train_2frame(seed_idx, veri, key = None, lastver = None, verbose = False):
             p_switch_reward = key['p_switch_reward'], \
             ps_high_state = key['ps_high_state'], \
             ps_common_trans = key['ps_common_trans'], \
-            ps_ambiguity = [0,1], \
+            ps_ambiguity = [0,0.5,1], \
             is_random_common0 = key['is_random_common0'], \
             p_switch_transition = key['p_switch_transition'], \
             render_mode = None, \
@@ -55,7 +55,6 @@ def train_2frame(seed_idx, veri, key = None, lastver = None, verbose = False):
         print(f'Last saved version: {wk.logger.last_saved_version}')
     return wk.logger.last_saved_version
 
-
 def trainver(seed_idx, config, veri):
     if veri == 1:
         keys = config['Ambiguity']
@@ -68,7 +67,7 @@ def trainver(seed_idx, config, veri):
 if __name__ == "__main__":
     with open('param.yaml', 'r', encoding="utf-8") as fin:
         config = yaml.load(fin, Loader=yaml.FullLoader)
-    # trainver(1, config, 1)
+    # trainver(1, config, 2)
     freeze_support()
     proc = []
     for seed_idx in range(1, 5):

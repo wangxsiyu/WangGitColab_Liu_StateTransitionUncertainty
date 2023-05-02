@@ -15,8 +15,8 @@ Transition:
   ps_ambiguity: [0]
   is_random_common0: True
   p_switch_transition: 0
-  nstep: 800_001
-  ver: "PLOS"
+  nstep: 500_001
+  ver: "MBMF"
 
 # Ambiguity:
 #   ps_high_state: [0.9]
