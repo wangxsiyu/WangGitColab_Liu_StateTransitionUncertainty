@@ -2,6 +2,7 @@ import yaml
 import torch
 from W_RNN.W_RNN import W_RNN_Head_ActorCritic
 from W_RNN.W_Trainer import W_Trainer
+from W_RNN.W_Logger import W_Logger 
 from W_Env.W_Env import W_Env
 from W_Python import W_tools as W
 import numpy as np
@@ -10,6 +11,24 @@ import os
 import sys
 np.set_printoptions(threshold=sys.maxsize)
 from multiprocessing import Process, Pool, freeze_support, RLock, Lock
+
+class W_logger1(W_Logger):
+    def __init__(self):
+        super().__init__()
+    def _init(self):
+        self.info['pamb'] = np.zeros_like(self.info['rewards'])
+    def _update(self, infogame):
+        self.info['pamb'][self.episode] = infogame[0]['params']['p_ambiguity']
+    def _getdescription(self, str):
+        episode = self.episode
+        pa = self.info['pamb'][max(0, episode-self.smooth_interval):(episode+1)]
+        r = self.info['rewards'][max(0, episode-self.smooth_interval):(episode+1)]
+        if episode > 100:
+            av = [r[pa < 0.1].mean(),r[pa ==0.5].mean(),r[pa >= 0.9].mean()]
+            str = f"R0 = {av[0]}, R50 = {av[1]}, R100 = {av[2]}"
+        else:
+            str = str
+        return str
 
 def train_2frame(seed_idx, veri, key = None, lastver = None, verbose = False):
     device = torch.device("cpu")
@@ -35,7 +54,8 @@ def train_2frame(seed_idx, veri, key = None, lastver = None, verbose = False):
                                             coef_valueloss = config['a2c']['value-loss-weight'], \
                                             coef_entropyloss = config['a2c']['entropy-loss-weight']))
     optim = dict(name = 'RMSprop', lr  = config['a2c']['lr'])
-    wk = W_Trainer(env, model, loss, optim, capacity = 1000, mode_sample = "last", \
+    logger = W_logger1()
+    wk = W_Trainer(env, model, loss, optim, logger = logger, capacity = 1000, mode_sample = "last", \
                 device = device, gradientclipping=config['a2c']['max-grad-norm'], \
                 seed = seed)
 
@@ -67,14 +87,14 @@ def trainver(seed_idx, config, veri):
 if __name__ == "__main__":
     with open('param.yaml', 'r', encoding="utf-8") as fin:
         config = yaml.load(fin, Loader=yaml.FullLoader)
-    # trainver(1, config, 2)
-    freeze_support()
-    proc = []
-    for seed_idx in range(1, 5):
-        for veri in range(2, 3):
-            p = Process(target = trainver, args = (seed_idx, config, veri))
-            p.start()
-            proc.append(p)
+    trainver(1, config, 2)
+    # freeze_support()
+    # proc = []
+    # for seed_idx in range(1, 5):
+    #     for veri in range(2, 3):
+    #         p = Process(target = trainver, args = (seed_idx, config, veri))
+    #         p.start()
+    #         proc.append(p)
 
-    for p in proc:
-        p.join()
+    # for p in proc:
+    #     p.join()
