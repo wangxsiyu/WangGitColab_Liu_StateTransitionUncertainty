@@ -70,7 +70,7 @@ if __name__ == "__main__":
     cb1 = W.W_counter_balance(params)
     cb = cb1
     proc = []
-    for seed_idx in range(1, 2):
+    for seed_idx in range(1, 4):
         for veri in range(3, 4):
             for loopi in range(cb['n']):
                 if veri == 1:
@@ -78,8 +78,9 @@ if __name__ == "__main__":
                 elif veri == 2:
                     tvar = 'Transition'
                 elif veri == 3:
-                    tvar = 'PLOS'
+                    tvar = 'MBMF'
                 # keys = config[tvar]
+                # test_2frame(seed_idx, tvar, cb, loopi)
                 p = Process(target = test_2frame, args = (seed_idx, tvar, cb, loopi))
                 p.start()
                 proc.append(p)
