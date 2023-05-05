@@ -65,7 +65,7 @@ if __name__ == "__main__":
     params = dict(
         ps_high_state = [0.75], \
         ps_common_trans = [0.8],\
-        ps_ambiguity = [0,0.2,1.0],\
+        ps_ambiguity = [0,1.0],\
         )
     cb1 = W.W_counter_balance(params)
     cb = cb1
@@ -80,7 +80,7 @@ if __name__ == "__main__":
                 elif veri == 3:
                     tvar = 'MBMF'
                 # keys = config[tvar]
-                # test_2frame(seed_idx, tvar, cb, loopi)
+                test_2frame(seed_idx, tvar, cb, loopi)
                 p = Process(target = test_2frame, args = (seed_idx, tvar, cb, loopi))
                 p.start()
                 proc.append(p)
