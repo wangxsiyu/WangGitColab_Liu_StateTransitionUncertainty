@@ -80,7 +80,7 @@ if __name__ == "__main__":
                 elif veri == 3:
                     tvar = 'MBMF'
                 # keys = config[tvar]
-                test_2frame(seed_idx, tvar, cb, loopi)
+                # test_2frame(seed_idx, tvar, cb, loopi)
                 p = Process(target = test_2frame, args = (seed_idx, tvar, cb, loopi))
                 p.start()
                 proc.append(p)
