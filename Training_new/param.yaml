@@ -8,7 +8,7 @@
 #   nstep: 10_000
 #   ver: "Reward"
 
-Transition:
+ConsTrans:
   ps_high_state: [0.8]
   p_switch_reward: 0.02
   ps_common_trans: [0.8]
@@ -16,7 +16,17 @@ Transition:
   is_random_common0: False
   p_switch_transition: 0
   nstep: 500_001
-  ver: "PLOSnew"
+  ver: "ConsTrans"
+
+RandTrans:
+  ps_high_state: [0.8]
+  p_switch_reward: 0.02
+  ps_common_trans: [0.8]
+  ps_ambiguity: [0]
+  is_random_common0: True
+  p_switch_transition: 0
+  nstep: 500_001
+  ver: "RandTrans"
 
 # Ambiguity:
 #   ps_high_state: [0.9]

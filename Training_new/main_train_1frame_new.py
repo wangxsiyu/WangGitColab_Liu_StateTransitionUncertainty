@@ -49,7 +49,7 @@ def train_2frame(seed_idx, veri, key = None, lastver = None, verbose = False):
         yaml.dump(config, fout)
     wk.logger.set(save_path= out_path, save_interval= config['save-interval'])
     wk.loaddict_main(lastver, currentfolder = exp_path, isresume = config['resume'])
-    strver = 'Transition' if veri == 2 else 'Ambiguity'
+    strver = 'ConsTrans' if veri == 1 else 'RandTrans'
     wk.train(key['nstep'], batch_size = 1, tqdmpos = seed_idx+ veri*4, tqdmstr= strver + f"_{seed_idx}")
     if verbose:
         print(f'Last saved version: {wk.logger.last_saved_version}')
@@ -58,9 +58,11 @@ def train_2frame(seed_idx, veri, key = None, lastver = None, verbose = False):
 
 def trainver(seed_idx, config, veri):
     if veri == 1:
-        keys = config['Ambiguity']
+        keys = config['ConsTrans']
     elif veri == 2:
-        keys = config['Transition']
+        keys = config['RandTrans']
+    elif veri == 3:
+        keys = config['FlipTrans']
     train_2frame(seed_idx,  veri, key = keys, verbose= True)
 
 
@@ -71,8 +73,8 @@ if __name__ == "__main__":
     # trainver(1, config, 1)
     freeze_support()
     proc = []
-    for seed_idx in range(1, 9):
-        for veri in range(2, 3):
+    for seed_idx in range(1, 5):
+        for veri in range(1, 3):
             p = Process(target = trainver, args = (seed_idx, config, veri))
             p.start()
             proc.append(p)
