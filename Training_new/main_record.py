@@ -63,7 +63,7 @@ if __name__ == "__main__":
     # test_2frame(1, 'Ambiguity2')
     freeze_support()
     params = dict(
-        ps_high_state = [0.75], \
+        ps_high_state = [0.8], \
         ps_common_trans = [0.8],\
         ps_ambiguity = [0,1.0],\
         )
