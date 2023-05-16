@@ -56,7 +56,7 @@ def test_2frame(subID, tvar, cb, loopi):
             block_n_maxTrials = 300)
     wk.env = env
     out_path = os.path.join(exp_path, f"data_{env.env.get_savename()}.csv")
-    wk.env.record(wk.model, n_episode = 5, savename = out_path, showprogress = True)
+    wk.env.record(wk.model, n_episode = 100, savename = out_path, showprogress = True)
 
 if __name__ == "__main__":
     # with open('param.yaml', 'r', encoding="utf-8") as fin:
@@ -66,12 +66,18 @@ if __name__ == "__main__":
     params = dict(
         ps_high_state = [0.8], \
         ps_common_trans = [0.8],\
-        ps_ambiguity = [0,1.0],\
+        ps_ambiguity = [0, 0.1, 0.2, 0.5, 1.0],\
         )
     cb1 = W.W_counter_balance(params)
-    cb = cb1
+    params = dict(
+        ps_high_state = [0.8], \
+        ps_common_trans = [0.6,0.7,0.8,0.9,1.0],\
+        ps_ambiguity = [0],\
+        )
+    cb2 = W.W_counter_balance(params)
+    cb = {key:cb1[key]+cb2[key] for key in cb1}
     proc = []
-    for seed_idx in range(1, 4):
+    for seed_idx in range(1, 5):
         for veri in range(3, 4):
             for loopi in range(cb['n']):
                 if veri == 1:
@@ -81,7 +87,7 @@ if __name__ == "__main__":
                 elif veri == 3:
                     tvar = 'MBMF'
                 # keys = config[tvar]
-                test_2frame(seed_idx, tvar, cb, loopi)
+                # test_2frame(seed_idx, tvar, cb, loopi)
                 p = Process(target = test_2frame, args = (seed_idx, tvar, cb, loopi))
                 p.start()
                 proc.append(p)
