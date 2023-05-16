@@ -18,9 +18,9 @@ def test_2frame(subID, tvar, cb, loopi):
     with open('task.yaml', 'r', encoding="utf-8") as fin:
         config = yaml.load(fin, Loader=yaml.FullLoader)
     device = torch.device("cpu")
-    env = W_Env("TwoStep_Ambiguity_1frame")
-    model = W_RNN_Head_ActorCritic(env.observation_space_size() + env.action_space.n + 1,\
-                config['a2c']['mem-units'], env.action_space.n, 'LSTM', device = device)
+    env = W_Env("TwoStep")
+    model = W_RNN_Head_ActorCritic(env.env.get_n_obs(),\
+                config['a2c']['mem-units'], env.env.get_n_actions(), 'LSTM', device = device)
     wk = W_Worker(None, model, capacity = 100, mode_sample = "all", \
                     device = device)
     model_path = "model/" + tvar + "/" + f"v_{subID}"
@@ -39,12 +39,12 @@ def test_2frame(subID, tvar, cb, loopi):
     # cb3 = W.W_counter_balance(params)
     # cb = {key:cb1[key]+cb2[key]+cb3[key] for key in cb1}
     # p_switch_transition = [True, 0]    
-    n_maxTrials = 300
+    n_maxTrials_reset = 300
     # set save folder
     exp_path = W.W_mkdir('data')
     exp_path = W.W_mkdir(os.path.join(exp_path, tlt))
     # for i in tqdm(reversed(range(cb['n'])), position = 0):
-    env = W_Env("TwoStep_Ambiguity_1frame", \
+    env = W_Env("TwoStep", \
             ps_high_state = cb['ps_high_state'][loopi], \
             ps_common_trans = cb['ps_common_trans'][loopi], \
             ps_ambiguity = cb['ps_ambiguity'][loopi], \
@@ -52,10 +52,11 @@ def test_2frame(subID, tvar, cb, loopi):
             p_switch_reward = 0.02, \
             p_switch_transition = 0, \
             render_mode = None, \
-            n_maxTrials = n_maxTrials)
+            n_maxTrials_reset = n_maxTrials_reset, \
+            block_n_maxTrials = 300)
     wk.env = env
-    out_path = os.path.join(exp_path, f"data_{env.get_versionname()}.csv")
-    wk.run_worker(100, is_test = True, savename = out_path, showprogress = True, record = True)
+    out_path = os.path.join(exp_path, f"data_{env.env.get_savename()}.csv")
+    wk.env.record(wk.model, n_episode = 5, savename = out_path, showprogress = True)
 
 if __name__ == "__main__":
     # with open('param.yaml', 'r', encoding="utf-8") as fin:
@@ -80,7 +81,7 @@ if __name__ == "__main__":
                 elif veri == 3:
                     tvar = 'MBMF'
                 # keys = config[tvar]
-                # test_2frame(seed_idx, tvar, cb, loopi)
+                test_2frame(seed_idx, tvar, cb, loopi)
                 p = Process(target = test_2frame, args = (seed_idx, tvar, cb, loopi))
                 p.start()
                 proc.append(p)
