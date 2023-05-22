@@ -1,4 +1,4 @@
-function FIG_Energy_landscape_over_time(plt, x1D, time_at, EL, games, animal)
+function FIG_Energy_landscape_over_time(plt, x1D, time_at, EL, games, animal, cax)
     %%
     conds = unique(games{1}.COND);
     avtraj = {[],[]};
@@ -26,11 +26,13 @@ function FIG_Energy_landscape_over_time(plt, x1D, time_at, EL, games, animal)
         avTJ{i} = [W.avse(avtraj{1, i}); W.avse(avtraj{2, i})];
     end
     %% development
-    plt.figure(2,3,'is_title', 1, 'gapW_custom', [0 1 1 1] * 50, 'matrix_hole', [1 1 1; 1 1 0]);
     for i = 1:5
-        plt.setfig_ax('xlabel','trial number',...
-            'ylabel', 'position', ...
+        if i > 3
+        plt.setfig_ax('xlabel','trial number');
+        end
+        plt.setfig_ax('ylabel', 'position', ...
         'xtickangle', 0);
+        
         pcolor(time_EL, x_EL, avEL{i}');
         shading interp 
 
@@ -38,12 +40,15 @@ function FIG_Energy_landscape_over_time(plt, x1D, time_at, EL, games, animal)
 %         ylim([-2.5 2.5])
         tpos = get(plt.fig.axes(plt.fig.axi), 'position');
         colorbar;
-        caxis(quantile(reshape(avEL{i},[],1), [0.025 0.975]));
+        if exist("cax")
+            caxis(cax);
+        else
+            caxis(quantile(reshape(avEL{i},[],1), [0.025 0.975]));
+        end
         set(plt.fig.axes(plt.fig.axi), 'position', tpos);
         hold on;
         plt.plot(time_at, avTJ{i}, ...
             [], 'line', 'color', plt.custom_vars.col_MBMF);
         plt.new;
     end
-    plt.update('development');
 end

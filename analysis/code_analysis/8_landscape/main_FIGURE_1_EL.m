@@ -10,13 +10,18 @@ x1D = W.cellfun(@(x)x.x1D, x1D);
 games = W_lp.load('data_cleaned');
 games = W.cellfun(@(x)x.games, games);
 %%
-FIG_Energy_landscape_by_cue_new(plt, EL, sub, 20)
 %%
+plt.figure(2,3,'is_title', 1, 'gapW_custom', [0 1 1 1] * 50, 'matrix_hole', [1 1 1; 1 1 1]);
 plt.reload_paramdatabase();
 plt.param_scale(1,[],1,1.3);
-FIG_Energy_landscape_over_time(plt, x1D, time_at,EL, games, sub.animal);
+cond = plt.custom_vars.name_cond;
+tlt =  arrayfun(@(x)sprintf("pT = %.0f, pA = %.0f", gp.GPav_gpT{1}(x), gp.GPav_gpA{1}(x)),1:length(gp.GPav_gpA{1}));
+plt.setfig(1:5,'title', W.str2cell(tlt));
+FIG_Energy_landscape_over_time(plt, x1D, time_at,EL, games, sub.animal, [-10, 5]);
 
+FIG_Energy_landscape_by_cue_new(plt, EL, sub, 20)
 
+plt.update('development', 'FGHIJK');
 
 
 % 

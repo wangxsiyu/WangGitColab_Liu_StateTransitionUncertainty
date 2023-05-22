@@ -7,6 +7,7 @@ decode = W_lp.load('decoding_overall');
 for si = 1:length(pcs)
     %%
     plt.figure(2,3, 'is_title', 'all', 'matrix_hole', [1 1 1; 1 1 0]);
+    plt.param_plt.fontsize_leg = 20;
     pc = pcs{si}.pc;
     pc = W.cellfun(@(x)x(:,1:3), pc, false);
     d = data{si}.games;
