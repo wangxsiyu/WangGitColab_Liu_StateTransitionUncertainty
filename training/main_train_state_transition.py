@@ -11,12 +11,12 @@ np.set_printoptions(threshold=sys.maxsize)
 
 if __name__ == "__main__":
     seed = 0
-    device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
+    device = "cpu" # torch.device('cuda' if torch.cuda.is_available() else 'cpu')
     with open('setup.yaml', 'r', encoding="utf-8") as fin:
         config = yaml.load(fin, Loader=yaml.FullLoader)
     with open('param_task.yaml', 'r', encoding="utf-8") as fin:
         config_task = yaml.load(fin, Loader=yaml.FullLoader)
-    key = "RandTrans"
+    key = "ConsTrans"
     env = W_Env("TwoStep", \
             param_task = config_task[key], \
             render_mode = None, \
