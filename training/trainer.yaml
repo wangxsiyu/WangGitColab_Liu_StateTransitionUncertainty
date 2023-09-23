@@ -30,7 +30,7 @@ param_buffer:
   mode_sample: last
 
 param_logger:
-  save_interval: 5_000
+  save_interval: 10
 
 
 

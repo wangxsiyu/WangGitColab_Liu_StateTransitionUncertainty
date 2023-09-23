@@ -1,0 +1,5 @@
+#SWARM -t 1 -g 20 --time 01:00:00
+python 'main_train_state_transition.py' 0
+python 'main_train_state_transition.py' 1
+python 'main_train_state_transition.py' 2
+python 'main_train_state_transition.py' 3
