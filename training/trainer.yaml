@@ -1,5 +1,5 @@
 device: cpu
-save_path: 'model'
+save_path: '/data/wangs29/model_2step'
 
 trainer:
     batch_size: 1
@@ -30,7 +30,7 @@ param_buffer:
   mode_sample: last
 
 param_logger:
-  save_interval: 10
+  save_interval: 10_000
 
 
 
