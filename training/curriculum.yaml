@@ -1,6 +1,6 @@
 Course1:
     envname: TwoStep
-    train_episodes: 25
+    train_episodes: 10_000
     metadata:
         n_maxTrials: 300
     task:
@@ -10,10 +10,21 @@ Course1:
         ps_ambiguity: [0]
         is_random_common0: False
         p_switch_transition: 0
-    coursename: "ConsTrans"
+    coursename: "ConsTrans_100"
 
-        
 # Course2:
+#     envname: TwoStep
+#     train_episodes: 10_000
+#     metadata:
+#         n_maxTrials: 300
+#     task:
+#         ps_high_state: [1]
+#         p_switch_reward: 0
+#         ps_common_trans: [0.8]
+#         ps_ambiguity: [0]
+#         is_random_common0: True
+#         p_switch_transition: 0
+#     coursename: "RandTrans_100"
 
 
 
