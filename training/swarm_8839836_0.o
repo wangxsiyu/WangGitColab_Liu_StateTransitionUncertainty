@@ -1,0 +1,4 @@
+---- COMMAND EXECUTED: ---------------------------------------------------------
+(   python 'main_train_state_transition.py' 0 )
+--------------------------------------------------------------------------------
+warning: overwriting existing info
