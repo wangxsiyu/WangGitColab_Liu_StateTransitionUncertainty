@@ -1,4 +1,4 @@
-#SWARM -t 1 -g 20 --time 01:00:00
+#SWARM -t 1 -g 20 --time 01:00:00 --logdir /data/wangs29/swarmlog
 python 'main_train_state_transition.py' 0
 python 'main_train_state_transition.py' 1
 python 'main_train_state_transition.py' 2
