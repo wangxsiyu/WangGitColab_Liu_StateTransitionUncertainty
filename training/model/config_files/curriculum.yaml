@@ -13,4 +13,4 @@ Course1:
     - 1
     ps_high_state:
     - 1
-  train_episodes: 50000
+  train_episodes: 150000

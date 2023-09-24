@@ -2,7 +2,7 @@ device: cpu
 save_path: 'model'
 
 trainer:
-    batch_size: 1
+    batch_size: 16
     train_mode: RL
     max-grad-norm: 999.
     is_online: True
@@ -11,7 +11,7 @@ trainer:
 model:
     name: W_RNN_ActorCritic
     param_model:
-        mem-units: 128
+        mem-units: 48
         gatetype: LSTM
 
 param_loss:

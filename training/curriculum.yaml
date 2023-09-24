@@ -1,6 +1,6 @@
 Course1:
     envname: TwoStep
-    train_episodes: 50_000
+    train_episodes: 150_000
     metadata:
         n_maxTrials: 300
     task:

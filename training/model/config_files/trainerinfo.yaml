@@ -67,7 +67,7 @@ model:
       - !!binary |
         AwAAAA==
     gatetype: LSTM
-    mem-units: 128
+    mem-units: 48
 param_buffer:
   capacity: 1000
   mode_sample: last
@@ -84,7 +84,7 @@ param_optim:
   name: RMSprop
 save_path: model
 trainer:
-  batch_size: 1
+  batch_size: 16
   is_online: true
   is_resume: true
   max-grad-norm: 999.0
