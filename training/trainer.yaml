@@ -5,13 +5,13 @@ trainer:
     batch_size: 16
     train_mode: RL
     max-grad-norm: 999.
-    is_online: True
+    is_online: False
     is_resume: True
     
 model:
     name: W_RNN_ActorCritic
     param_model:
-        mem-units: 48
+        mem-units: 128
         gatetype: LSTM
 
 param_loss:
@@ -26,8 +26,8 @@ param_optim:
   lr: 7.e-4
 
 param_buffer:
-  capacity: 1000
-  mode_sample: last
+  capacity: 128
+  mode_sample: random
 
 param_logger:
   save_interval: 10_000
