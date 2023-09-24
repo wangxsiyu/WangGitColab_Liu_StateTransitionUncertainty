@@ -1,0 +1,91 @@
+device: cpu
+model:
+  name: W_RNN_ActorCritic
+  param_model:
+    env: !!python/object:W_Env.task_TwoStep.task_TwoStep
+      _count_block: 0
+      _count_task_trial: 0
+      _data_issave: false
+      _data_istable: true
+      _obs_channel_namedict:
+        planet0: 0
+        planet1: 1
+        planet2: 2
+      _param_task:
+        is_random_common0: false
+        p_switch_reward: 0
+        p_switch_transition: 0
+        ps_ambiguity:
+        - 0
+        ps_common_trans:
+        - 1
+        ps_high_state:
+        - 1
+        ps_low_state: null
+      _time_task: 0
+      _time_unit: 1
+      dim_obs: !!python/object/apply:numpy.core.multiarray._reconstruct
+        args:
+        - !!python/name:numpy.ndarray ''
+        - !!python/tuple
+          - 0
+        - !!binary |
+          Yg==
+        state: !!python/tuple
+        - 1
+        - !!python/tuple
+          - 1
+        - &id001 !!python/object/apply:numpy.dtype
+          args:
+          - i4
+          - false
+          - true
+          state: !!python/tuple
+          - 3
+          - <
+          - null
+          - null
+          - null
+          - -1
+          - -1
+          - 0
+        - false
+        - !!binary |
+          AwAAAA==
+      env_name: TwoStep
+      human_key_action:
+        actions:
+        - 0
+        - 1
+        keys:
+        - left
+        - right
+      n_actions: 2
+      n_motor: 2
+      n_obs: !!python/object/apply:numpy.core.multiarray.scalar
+      - *id001
+      - !!binary |
+        AwAAAA==
+    gatetype: LSTM
+    mem-units: 128
+param_buffer:
+  capacity: 1000
+  mode_sample: last
+param_logger:
+  save_interval: 10000
+param_loss:
+  name: A2C
+  params:
+    coef_entropyloss: 0.05
+    coef_valueloss: 0.05
+    gamma: 0.9
+param_optim:
+  lr: 0.0007
+  name: RMSprop
+save_path: model
+trainer:
+  batch_size: 1
+  is_online: true
+  is_resume: true
+  max-grad-norm: 999.0
+  train_mode: RL

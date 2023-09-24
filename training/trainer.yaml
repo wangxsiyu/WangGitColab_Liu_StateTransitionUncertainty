@@ -1,5 +1,5 @@
 device: cpu
-save_path: '/data/wangs29/model_2step'
+save_path: 'model'
 
 trainer:
     batch_size: 1
