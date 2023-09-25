@@ -1,0 +1,2 @@
+#SWARM -t 1 -g 10 --time 05:00:00 --logdir /data/wangs29/swarmlog
+python 'main_train_state_transition.py' 7
