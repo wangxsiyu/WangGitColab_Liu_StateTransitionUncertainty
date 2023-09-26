@@ -38,7 +38,7 @@ Course1:
         ps_ambiguity: [0]
         is_random_common0: True
         p_switch_transition: 0
-    coursename: "NoAmb_RandTrans"
+    coursename: "NoAmb_RandTrans_Online"
 
   
 # Reward:
