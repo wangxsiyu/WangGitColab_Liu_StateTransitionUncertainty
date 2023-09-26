@@ -5,7 +5,7 @@ trainer:
     batch_size: 16
     train_mode: RL
     max-grad-norm: 999.
-    is_online: True
+    is_online: False
     is_resume: True
     
 model:
