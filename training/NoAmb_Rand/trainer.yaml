@@ -5,7 +5,7 @@ trainer:
     batch_size: 16
     train_mode: RL
     max-grad-norm: 999.
-    is_online: False
+    is_online: True
     is_resume: True
     
 model:
@@ -26,8 +26,8 @@ param_optim:
   lr: 7.e-4
 
 param_buffer:
-  capacity: 128
-  mode_sample: random
+  capacity: 16
+  mode_sample: last
 
 param_logger:
   save_interval: 10_000
