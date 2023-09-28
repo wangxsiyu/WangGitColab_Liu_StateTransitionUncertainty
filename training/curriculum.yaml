@@ -12,7 +12,7 @@ Course1:
         p_switch_transition: 0
     coursename: "NoAmb"
 
- Course2:
+Course2:
     envname: TwoStep
     train_episodes: 50_000
     metadata:
