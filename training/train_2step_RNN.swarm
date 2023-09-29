@@ -1,0 +1,9 @@
+#SWARM -t 1 -g 2 --time 72:00:00 --logdir /data/wangs29/swarmlog
+python 'main_training.py' 0 vanilla RNN
+python 'main_training.py' 1 vanilla RNN
+python 'main_training.py' 2 vanilla RNN
+python 'main_training.py' 3 vanilla RNN
+python 'main_training.py' 4 vanilla RNN
+python 'main_training.py' 5 vanilla RNN
+python 'main_training.py' 6 vanilla RNN
+python 'main_training.py' 7 vanilla RNN

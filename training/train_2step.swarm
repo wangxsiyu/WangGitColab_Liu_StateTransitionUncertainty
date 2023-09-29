@@ -1,9 +1,0 @@
-#SWARM -t 1 -g 5 --time 96:00:00 --logdir /data/wangs29/swarmlog
-python 'main_training.py' 0
-python 'main_training.py' 1
-python 'main_training.py' 2
-python 'main_training.py' 3
-python 'main_training.py' 4
-python 'main_training.py' 5
-python 'main_training.py' 6
-python 'main_training.py' 7
