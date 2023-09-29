@@ -4,7 +4,7 @@ save_path: '/data/wangs29/model_twostep'
 trainer:
     batch_size: 16
     train_mode: RL
-    max-grad-norm: 999.
+    max-grad-norm: 99.
     is_online: True
     is_resume: True
     
