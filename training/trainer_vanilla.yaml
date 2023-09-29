@@ -1,0 +1,37 @@
+device: cpu
+save_path: '/data/wangs29/model_twostep'
+
+trainer:
+    batch_size: 16
+    train_mode: RL
+    max-grad-norm: 999.
+    is_online: True
+    is_resume: True
+    
+model:
+    name: W_RNN_ActorCritic
+    param_model:
+        mem-units: 128
+        gatetype: vanilla
+
+param_loss:
+  name: A2C
+  params:
+    coef_valueloss: 0.05
+    coef_entropyloss: 0.05
+    gamma: 0.9
+
+param_optim:
+  name: RMSprop
+  lr: 7.e-4
+
+param_buffer:
+  capacity: 16
+  mode_sample: last
+
+param_logger:
+  save_interval: 5_000
+
+
+
+  
