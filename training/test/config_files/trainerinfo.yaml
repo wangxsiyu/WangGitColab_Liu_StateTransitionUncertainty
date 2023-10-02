@@ -1,0 +1,27 @@
+device: cpu
+model:
+  name: W_RNN_ActorCritic
+  param_model:
+    gatetype: LSTM
+    mem-units: 128
+param_buffer:
+  capacity: 16
+  mode_sample: last
+param_logger:
+  save_interval: 5000
+param_loss:
+  name: A2C
+  params:
+    coef_entropyloss: 0.05
+    coef_valueloss: 0.05
+    gamma: 0.9
+param_optim:
+  lr: 0.0007
+  name: RMSprop
+save_path: test
+trainer:
+  batch_size: 16
+  is_online: true
+  is_resume: true
+  max-grad-norm: 999.0
+  train_mode: RL

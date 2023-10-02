@@ -1,0 +1,18 @@
+Course1:
+  coursename: Amb
+  envname: TwoStep
+  metadata:
+    n_maxTrials: 300
+  task:
+    is_random_common0: true
+    p_switch_reward: 0.02
+    p_switch_transition: 0
+    ps_ambiguity:
+    - 0
+    - 0.5
+    - 1
+    ps_common_trans:
+    - 0.8
+    ps_high_state:
+    - 0.8
+  train_episodes: 50000
