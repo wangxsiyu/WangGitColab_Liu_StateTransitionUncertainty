@@ -1,4 +1,4 @@
-#SWARM -t 1 -g 2 --time 144:00:00 --logdir /data/wangs29/swarmlog
+#SWARM -t 1 -g 2 --time 96:00:00 --logdir /data/wangs29/swarmlog
 python 'main_training.py' 0 LSTM LSTM
 python 'main_training.py' 1 LSTM LSTM
 python 'main_training.py' 2 LSTM LSTM
