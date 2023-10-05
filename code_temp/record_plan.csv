@@ -1,0 +1,9 @@
+env,savename,n_episode,modelname,modelfolder,is_record
+GA,.\simudata\na,100,LSTM,\\hpcdrive.nih.gov\data\model_twostep\Seed0_W_RNN_ActorCritic_LSTM\C1_NoAmb_RL_online,0
+GA,.\simudata\na,100,LSTM,\\hpcdrive.nih.gov\data\model_twostep\Seed1_W_RNN_ActorCritic_LSTM\C1_NoAmb_RL_online,0
+GA,.\simudata\na,100,LSTM,\\hpcdrive.nih.gov\data\model_twostep\Seed2_W_RNN_ActorCritic_LSTM\C1_NoAmb_RL_online,0
+GA,.\simudata\na,100,LSTM,\\hpcdrive.nih.gov\data\model_twostep\Seed3_W_RNN_ActorCritic_LSTM\C1_NoAmb_RL_online,0
+GA,.\simudata\na,100,LSTM,\\hpcdrive.nih.gov\data\model_twostep\Seed4_W_RNN_ActorCritic_LSTM\C1_NoAmb_RL_online,0
+GA,.\simudata\na,100,LSTM,\\hpcdrive.nih.gov\data\model_twostep\Seed5_W_RNN_ActorCritic_LSTM\C1_NoAmb_RL_online,0
+GA,.\simudata\na,100,LSTM,\\hpcdrive.nih.gov\data\model_twostep\Seed6_W_RNN_ActorCritic_LSTM\C1_NoAmb_RL_online,0
+GA,.\simudata\na,100,LSTM,\\hpcdrive.nih.gov\data\model_twostep\Seed7_W_RNN_ActorCritic_LSTM\C1_NoAmb_RL_online,0

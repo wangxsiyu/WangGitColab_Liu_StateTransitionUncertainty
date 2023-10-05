@@ -1,0 +1,20 @@
+device: cpu
+
+envs:
+    GA:
+        envname: TwoStep
+        metadata:
+            n_maxTrials: 300
+        task:
+            ps_high_state: [0.8]
+            p_switch_reward: 0.02
+            ps_common_trans: [0.8]
+            ps_ambiguity: [0]
+            is_random_common0: True
+            p_switch_transition: 0
+model:
+    LSTM:
+        name: W_RNN_ActorCritic
+        param_model:
+            mem-units: 128
+            gatetype: LSTM
